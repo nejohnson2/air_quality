@@ -19,7 +19,8 @@ GSMClient client;
 GPRS gprs;
 GSM gsmAccess(false); // true for debugging
 
-char server[] = "api.xively.com";
+//char server[] = "api.xively.com";
+char server[] = "epc.tmobile.com";
 
 unsigned long lastConnectionTime = 0; 
 boolean lastConnected = false;
