@@ -7,20 +7,20 @@
 #define FEEDID 195396285    
 #define USERAGENT "GSM Module"
 
-// APN data
-#define GPRS_APN "wap.cingular" // this is unique to the carrier
+// APN data - this is unique to the carrier
+//#define GPRS_APN "wap.cingular" // AT&T
+#define GPRS_APN "epc.tmobile.com" // T-Mobile
 #define GPRS_LOGIN "admin" // this is not required by the carrier but by the library
 #define GPRS_PASSWORD "password" // ditto
 
-#define PINNUMBER ""
+#define PINNUMBER "" 
 
 // initialize the library instance
 GSMClient client;
 GPRS gprs;
 GSM gsmAccess(false); // true for debugging
 
-//char server[] = "api.xively.com";
-char server[] = "epc.tmobile.com";
+char server[] = "api.xively.com";
 
 unsigned long lastConnectionTime = 0; 
 boolean lastConnected = false;
