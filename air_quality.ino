@@ -24,13 +24,13 @@ char server[] = "api.xively.com";
 
 unsigned long lastConnectionTime = 0; 
 boolean lastConnected = false;
-const unsigned long postingInterval = 30*1000;
+const unsigned long postingInterval = 30*1000; // milliseconds 
 
 // Setting up the PM Sensor
 int pin = 8; // Yellow wire
 unsigned long duration;
 unsigned long starttime;
-unsigned long sampletime_ms = 30000;//sampe 30s ;
+unsigned long sampletime_ms = 30000; //sampe 30s ;
 unsigned long lowpulseoccupancy = 0;
 float ratio = 0;
 float concentration = 0;

@@ -20,3 +20,5 @@ The Dust Particle Sensor from Groove uses a small LED to detect the number of pa
 Following the hardware setup, we will need to setup a Xively account in order to display our data on the web.  You can sign up for a Xively account [here](https://xively.com/signup).  After signing up for an account, click on "Add Device" which will setup your new data stream.  Also, keep track of you 'Feed ID' which will be used in the Arduino code.
 
 The final stage in this tutorial is implementing the Arduino code to connect both to your Xively account as well as your cellular network.  All of the code can be found here.  To begin, open the code in the Arduino IDE and modify the code to match your Xively 'API Key' and 'Feed ID'.  Then modify the GPRS_APN to match you carrier.  For T-Mobile the GPRS_APN is "epc.tmobile.com" and for AT&T the GPRS_APN is "wap.cingular".
+
+The final piece to modify is the frequency that data is sent to Xively.   This can be change by modifying the postingInterval variable which is set in milliseconds.  Setting this will dramatically affect the battery life.
