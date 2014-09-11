@@ -1,11 +1,6 @@
-
 // Include the GSM library
 #include <GSM.h>
-
-//Xively Client Data
-#define APIKEY "ftO5YwxivQDKO86zHjWJwPom1WCiTFAtWnM5MZAeDYmrC0tj"  
-#define FEEDID 195396285    
-#define USERAGENT "GSM Module"
+#include <credentials.h>
 
 // APN data - this is unique to the carrier
 //#define GPRS_APN "wap.cingular" // AT&T
@@ -39,11 +34,11 @@ void setup()
 {
   // initialize serial communications and wait for port to open:
   Serial.begin(9600);
-  
+
   pinMode(8, INPUT);
   starttime = millis(); // get the current time
   Serial.println("Starting Arduino Shield");
-  
+
   // connection state
   boolean notConnected = true;
 
@@ -52,7 +47,7 @@ void setup()
   while(notConnected)
   {
     if(gsmAccess.begin(PINNUMBER)==GSM_READY &
-        (gprs.attachGPRS(GPRS_APN, GPRS_LOGIN, GPRS_PASSWORD)==GPRS_READY))
+      (gprs.attachGPRS(GPRS_APN, GPRS_LOGIN, GPRS_PASSWORD)==GPRS_READY))
       notConnected = false;
     else
     {
@@ -60,7 +55,7 @@ void setup()
       delay(1000);
     }
   }
-  
+
   Serial.println("GSM initialized");
 }
 
@@ -76,8 +71,8 @@ void loop()
   // purposes only:
   if (client.available())
   {
-     char c = client.read();
-     Serial.print(c);
+    char c = client.read();
+    Serial.print(c);
   }
   // if there's no net connection, but there was one last time
   // through the loop, then stop the client:
@@ -90,13 +85,13 @@ void loop()
   if(!client.connected() && ((millis() - lastConnectionTime) > postingInterval))
   {
     Serial.println(lowpulseoccupancy);
-  sendData(lowpulseoccupancy);
+    sendData(lowpulseoccupancy);
   }
-  
+
   // store the state of the connection for next time through
   // the loop:
   lastConnected = client.connected();    
-  
+
 }
 
 void sendData(unsigned long thisData)
@@ -109,16 +104,16 @@ void sendData(unsigned long thisData)
     int dataLengthReal = dataLength.length();
     Serial.println(dataLengthReal);
     //int thisLength = 8 + dataLengthReal;
-    
+
     ratio = thisData / (sampletime_ms*10.0); // Interger percentage 0=>100
     concentration = 1.1*pow(ratio,3)-3.8*pow(ratio,2)+520*ratio+0.62; //using spec sheet curve
-    
+
     Serial.print(thisData);
     Serial.print(",");
     Serial.print(ratio);
     Serial.print(",");
     Serial.println(concentration); 
-    
+
     // Get the length of the concentration
     int sendConcentration = int(concentration);
     String sendReal = String(sendConcentration);
@@ -127,7 +122,7 @@ void sendData(unsigned long thisData)
     // Total length of data being sent
     // 18 are the labels and 8 is for the concentration
     int sendLength = 18 + sendRealReal + dataLengthReal + 8;
-    
+
     // send the HTTP PUT request:
     client.print("PUT /v2/feeds/");
     client.print(FEEDID);
@@ -149,14 +144,14 @@ void sendData(unsigned long thisData)
     client.println("Content-Type: text/csv");
     client.println("Connection: close");
     client.println();
-    
+
     // here's the actual content of the PUT request:
     client.print("sensor1,");
     client.println(lowpulseoccupancy);
-    
+
     client.print("ratio,");
     client.println(ratio);
-    
+
     client.print("con,");
     client.println(concentration);
   } 
@@ -168,9 +163,10 @@ void sendData(unsigned long thisData)
     Serial.println("disconnecting.");
     client.stop();
   }
-  
+
   // reset the count
   lowpulseoccupancy = 0;
   // note the time that the connection was made or attempted
   lastConnectionTime = millis();
 }
+
