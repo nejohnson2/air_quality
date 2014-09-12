@@ -1,6 +1,6 @@
 // Include the GSM library
 #include <GSM.h>
-#include <credentials.h>
+#include "credentials.h"
 
 // APN data - this is unique to the carrier
 //#define GPRS_APN "wap.cingular" // AT&T
@@ -100,28 +100,30 @@ void sendData(unsigned long thisData)
   if (client.connect(server, 80))
   {
     Serial.println("connecting...");
+    
+    // Get character length of incoming data
     String dataLength = String(thisData);
     int dataLengthReal = dataLength.length();
-    Serial.println(dataLengthReal);
-    //int thisLength = 8 + dataLengthReal;
 
+    // Calculate the dust particle concentration and ratio
     ratio = thisData / (sampletime_ms*10.0); // Interger percentage 0=>100
     concentration = 1.1*pow(ratio,3)-3.8*pow(ratio,2)+520*ratio+0.62; //using spec sheet curve
 
+    // For viewing in serial monitor
     Serial.print(thisData);
     Serial.print(",");
     Serial.print(ratio);
     Serial.print(",");
     Serial.println(concentration); 
 
-    // Get the length of the concentration
+    // Get the length of the concentration value
     int sendConcentration = int(concentration);
     String sendReal = String(sendConcentration);
     int sendRealReal = sendReal.length();
 
     // Total length of data being sent
-    // 18 are the labels and 8 is for the concentration
-    int sendLength = 18 + sendRealReal + dataLengthReal + 8;
+    // 14 characters for the labels plus data lengths
+    int sendLength = 14 + sendRealReal + dataLengthReal + 8;
 
     // send the HTTP PUT request:
     client.print("PUT /v2/feeds/");
@@ -134,10 +136,7 @@ void sendData(unsigned long thisData)
     client.println(USERAGENT);
     client.print("Content-Length: ");
 
-    // calculate the length of the sensor reading in bytes:
-    // 8 bytes for "sensor1," + number of digits of the data:
-    // there was a function here but i moved it to the top 
-    Serial.println(sendLength);
+    // This is the charachter length of the content
     client.println(sendLength);
 
     // last pieces of the HTTP PUT request:
@@ -146,7 +145,7 @@ void sendData(unsigned long thisData)
     client.println();
 
     // here's the actual content of the PUT request:
-    client.print("sensor1,");
+    client.print("lpo,");
     client.println(lowpulseoccupancy);
 
     client.print("ratio,");

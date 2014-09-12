@@ -1,5 +1,5 @@
 /* Credentials for Xively Account */
 
-#define APIKEY "[Put Your API Key Here]"
-#define FEEDID "[Put Your FeedID Here]"
-#define USERAGENT "[Put Your USERAGENT Here]"
+#define APIKEY "ftO5YwxivQDKO86zHjWJwPom1WCiTFAtWnM5MZAeDYmrC0tj"
+#define FEEDID 195396285
+#define USERAGENT "GSM Module"
