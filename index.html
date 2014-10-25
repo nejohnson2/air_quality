@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Air quality : Arduino code to capture particulate matter from a the Groove Dust Sensor and send the data to Xively over GSM">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Air quality</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/nejohnson2/air_quality">View on GitHub</a>
+
+          <h1 id="project_title">Air quality</h1>
+          <h2 id="project_tagline">Arduino code to capture particulate matter from a the Groove Dust Sensor and send the data to Xively over GSM</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/nejohnson2/air_quality/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/nejohnson2/air_quality/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="air-quality" class="anchor" href="#air-quality"><span class="octicon octicon-link"></span></a>air-quality</h1>
+
+<p>This tutorial will cover the fundamentals of deploying a solar powered air quality monitor using the cellular network.  Though we will be using a dust particle sensor to measure air quality, the same setup could easily be modified for other sensors such ____.  This setup also uses the Xively platform which allows for real-time data streams to be displayed on the web.  To begin, you will need:</p>
+
+<ul>
+<li>Arduino Uno</li>
+<li>Arduino GSM Shield</li>
+<li>Active SIM Card (AT&amp;T or T-Mobile)</li>
+<li>Dust Particle Sensor</li>
+<li>Voltaic Solar Kit </li>
+</ul>
+
+<p>The Arduino GSM shield is a powerful module that enables connection to the cellular network.  Using this shield, we can make phone calls, send text messages and even access  web pages.  All of this functionality relies on an active SIM card from any GSM carrier.  We will be using T-Mobile for our example.  </p>
+
+<p>Image 
+<a href="http://arduino.cc/en/uploads/Guide/SlideSIMIn.jpg">http://arduino.cc/en/uploads/Guide/SlideSIMIn.jpg</a></p>
+
+<p>The Dust Particle Sensor from Groove uses a small LED to detect the number of particles passing through the housing.  To incorporate the sensor into the Arduino GSM shield simple connect the black wire to ground, the red wire to 5v and the yellow wire to pin 8.  The sensor ships with a connector which we simple cut off and soldered header pins onto the wires individually.</p>
+
+<p>Following the hardware setup, we will need to setup a Xively account in order to display our data on the web.  You can sign up for a Xively account <a href="https://xively.com/signup">here</a>.  After signing up for an account, click on "Add Device" which will setup your new data stream.  Also, keep track of you 'Feed ID' which will be needed in the Arduino code.  </p>
+
+<p>If you are using the supplied Arduino Code, the data values should automatically populate in the Xively feed.  The code uses Xively's API to automatically set three streams of data for each PUT request.  These streams are the concentration(con) of particles, the ratio(ratio) of the particles to air and the low pulse occupancy(lpo).  Each of these data points are sent in the content of the PUT request and should appear as three separate streams of data.  For more information about these streams visit this site.</p>
+
+<p>The final stage in this tutorial is implementing the Arduino code to connect both to your Xively account as well as your cellular network.  All of the code can be found here.  To begin, open the code in the Arduino IDE and modify the 'credentials.h' file to include your Xively API key, the 'Feed ID' and the name of the module(Xively User Agent).  Then modify the 'air_quality.ino' file to change the GPRS_APN to match you carrier.  For T-Mobile the GPRS_APN is "epc.tmobile.com" and for AT&amp;T the GPRS_APN is "wap.cingular".</p>
+
+<p>The final piece to modify is the frequency that data is sent to Xively.   This can be change by modifying the postingInterval variable which is set in milliseconds.  Setting this will dramatically affect the battery life.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Air quality maintained by <a href="https://github.com/nejohnson2">nejohnson2</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
